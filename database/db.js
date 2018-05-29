@@ -51,17 +51,4 @@ var updateMovie = function(title) {
 }
 module.exports.addMovie = addMovie;
 module.exports.fetchMovie = fetchMovie;
-/*let repoSchema = mongoose.Schema({
-  // TODO: your schema here!
-  name : String,
-  owner: String,
-  url: String,
-  private: Boolean,
-  avatarURL: String,
-  description: String,
-  githubID: {
-  	type: Number,
-  	unique: true,
-  	index: true
-  }
-});*/
+
