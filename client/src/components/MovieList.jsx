@@ -12,7 +12,7 @@ class MovieList extends React.Component {
        {this.props.list.map((movie,index) => {
         return (
         <div key = {index}>
-        <MovieListEntry movie={movie}/>
+        <MovieListEntry movie={movie} handleWatcedToggle={this.props.handleWatcedToggle}/>
         </div>
         )
        })}

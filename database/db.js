@@ -15,7 +15,8 @@ var movieSchema = mongoose.Schema({
   },
   release_date:String,
   overview: String,
-  vote_average: Number 
+  vote_average: Number,
+  watched:Boolean 
 });
 
 var Movie = mongoose.model('Movie',movieSchema);
@@ -42,6 +43,12 @@ var fetchMovie = function(cb) {
   }).sort({vote_average:1}).limit(5);
 }
 
+var updateMovie = function(title) {
+  Movie.updateOne({title:title},{ $set: {watched:true} }, function(err, res) {
+    if (err) throw err;
+    console.log("1 document updated");
+  });
+}
 module.exports.addMovie = addMovie;
 module.exports.fetchMovie = fetchMovie;
 /*let repoSchema = mongoose.Schema({

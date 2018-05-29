@@ -5,6 +5,7 @@ class MovieListEntry extends React.Component {
   constructor(props) {
     super(props);
   }
+
   render(){
     return(
     <div>
@@ -12,6 +13,7 @@ class MovieListEntry extends React.Component {
     <div>{this.props.movie.release_date}</div>
     <div>{this.props.movie.overview}</div>
     <div>{this.props.movie.vote_average}</div>
+    <button onClick={()=>this.props.handleWatcedToggle(this.props.movie.title)}>watched</button>
     </div>
     )
   }

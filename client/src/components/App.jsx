@@ -11,7 +11,8 @@ class App extends React.Component {
     super(props);
     this.state = {
       list : [],
-      added:null
+      added:null,
+      watched:false
     }
   }
   componentDidMount() {
@@ -41,9 +42,20 @@ class App extends React.Component {
     })
   }
 
-
+  handleWatchedFilterBtn() {
+    this.setState({watched:!this.state.watched});
+  }
+  
+  handleWatcedToggle(movieTitle){
+    let targetMovie = this.state.list.filter((e) => e.title === movieTitle);
+    targetMovie[0].watched = !targetMovie[0].watched;
+  }
 
   render() {
+    let renderList = this.state.list;
+    if(this.state.watched) {
+      renderList = this.state.list.filter((e) => e.watched);
+    }
     return(
       <div>
       <h1>My Movie List</h1>
@@ -51,8 +63,9 @@ class App extends React.Component {
       <div>Added:{this.state.added}</div>
       <Add handleSubmit={this.handleSubmit.bind(this)}/>
       <div>
+      <button onClick={this.handleWatchedFilterBtn.bind(this)}>FilterWatched</button>
       </div>
-      <MovieList list={this.state.list}/>
+      <MovieList list={renderList} handleWatcedToggle={this.handleWatcedToggle.bind(this)}/>
       </div>
     )
   }

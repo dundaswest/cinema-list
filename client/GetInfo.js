@@ -20,7 +20,8 @@ const searchMovies = (query, callback) => {
         title:target.title,
         release_date:target.release_date,
         overview: target.overview,
-        vote_average: target.vote_average
+        vote_average: target.vote_average,
+        watched:false
       }
 
       axios.post('/movie', movie)
