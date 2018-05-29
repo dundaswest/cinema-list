@@ -2,7 +2,7 @@
 import axios from 'axios';
 import apiKey from './src/config/config.js';
 
-const searchMovies = (query, callback) => {
+const searchMovies = (query, successCallback, failureCallback) => {
   const settings = {
     "async": true,
     "crossDomain": true,
@@ -11,28 +11,21 @@ const searchMovies = (query, callback) => {
     "headers": {},
     "data": "{}"
   }
+  
   axios.get(settings.url)
-    .then(function (response) {
-      //res.send(response.data.results[0]);
-      console.log('HIROO',response.data.results[0]);
-      let target = response.data.results[0];
-      let movie = {
-        title:target.title,
-        release_date:target.release_date,
-        overview: target.overview,
-        vote_average: target.vote_average
+    .then(response => {
+      const firstMovie = response.data.results[0];
+      const movieObject = {
+        title:firstMovie.title,
+        release_date:firstMovie.release_date,
+        overview: firstMovie.overview,
+        vote_average: firstMovie.vote_average
       }
-      axios.post('/movie', movie)
-      .then((response) => {
-      console.log(response)
+
+      successCallback(movieObject);
     })
-    .catch(function (error) {
-      console.log(error);
-    });
-      callback(null, movie);
-    })
-    .catch(function (error) {
-      console.log(error);
+    .catch(error => {
+      failureCallback(error);
     });
   
 

@@ -4,48 +4,52 @@ import MovieList from './MovieList.jsx';
 import Add from './Add.jsx';
 import axios from 'axios';
 
-import searchMovies from '../../GetInfo.js';
+import searchMovies from '../../GetMovieInfo.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       list : [],
-      input:''
+      lastAddedMovie: { title: 'none' }
     }
   }
   componentDidMount() {
     this.fetchData();
   }
   handleClick(title) {
-    searchMovies(title, (err, data) => {
-      if(err) {
-        console.log(err);
-      } else {
-        console.log('handleclick', data);
-        //this.setState({list:this.state.list.concat(data)})
-      }
-    });
-    this.handleSubmit(title); 
+    const onSuccess = newMovie => {
+      this._postMovie(newMovie);
+      this.setState({lastAddedMovie: newMovie});
+    };
+
+    const onFailure = error => {
+      console.log(error);
+    }
+
+    searchMovies(title, onSuccess, onFailure);
   }
 
   handleSubmit(movie) {
-    axios.post('/', movie)
-    .then((response) => {
-      this.fetchData();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+  }
+
+  _postMovie(newMovie) {
+    axios.post('/movie', newMovie)
+      .then(() => {
+        this.fetchData();
+      }).catch(error => {
+        console.log(error);
+      });
   }
 
   fetchData() {
+    // grab movies from the database based on the parameters
     axios.get('/movie')
-    .then((response) => {
-      this.setState({list:response.data});
-    }).catch(function(error){
-      console.log(error);
-    })
+      .then(response => {
+        this.setState({list: response.data});
+      }).catch(function(error){
+        console.log(error);
+    });
   }
 
 
@@ -53,12 +57,13 @@ class App extends React.Component {
   render() {
     return(
       <div>
-      <h1>My Movie List</h1>
-      <div>Total:{this.state.list.length}</div>
-      <Add handleClick={this.handleClick.bind(this)}/>
-      <div>
-      </div>
-      <MovieList list={this.state.list}/>
+        <h1>My Movie List</h1>
+        <div>Total:{this.state.list.length}</div>
+        <h2 className="last-added-movie">Last added movie: {this.state.lastAddedMovie.title}</h2>
+        <Add handleClick={this.handleClick.bind(this)}/>
+        <div>
+        </div>
+        <MovieList list={this.state.list}/>
       </div>
     )
   }

@@ -18,19 +18,31 @@ class Add extends React.Component {
   handleStarChange(e) {
     this.setState({star:e.target.value});
   }
+
+  handleClick() {
+    this.props.handleClick(this.state.title);
+    this.setState({title: '', star: ''});
+  }
+
   render() {
     return(
       <div>
         <label>
          Title:
-        <input type="text" name="name" onChange={this.handleTitleChange.bind(this)}/>
+        <input type="text"
+          name="name"
+          onChange={this.handleTitleChange.bind(this)}
+          value={this.state.title}/>
         </label>
         <label>
          Star:
-        <input type="text" name="star" onChange={this.handleStarChange.bind(this)}/>
+        <input type="text"
+          name="star"
+          onChange={this.handleStarChange.bind(this)}
+          value={this.state.star}/>
         </label>
         <button 
-          onClick={() => this.props.handleClick(this.state.title)}>Submit</button>
+          onClick={this.handleClick.bind(this)}>Submit</button>
       </div>
     )
   }
