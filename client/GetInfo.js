@@ -22,16 +22,18 @@ const searchMovies = (query, callback) => {
         overview: target.overview,
         vote_average: target.vote_average
       }
+
       axios.post('/movie', movie)
-      .then((response) => {
-      console.log(response)
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-      callback(null, movie);
-    })
-    .catch(function (error) {
+        .then((response) => {
+          callback(null, response.data);
+          console.log(response)
+        }).catch(function (error) {
+          callback(error, null);
+          console.error(error);
+        });
+
+      
+    }).catch(function (error) {
       console.log(error);
     });
   

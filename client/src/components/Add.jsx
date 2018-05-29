@@ -30,7 +30,7 @@ class Add extends React.Component {
         <input type="text" name="star" onChange={this.handleStarChange.bind(this)}/>
         </label>
         <button 
-          onClick={() => this.props.handleClick(this.state.title)}>Submit</button>
+          onClick={() => this.props.handleSubmit(this.state.title)}>Submit</button>
       </div>
     )
   }

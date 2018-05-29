@@ -8,7 +8,11 @@ db.once('open', function() {
 });
 
 var movieSchema = mongoose.Schema({
-  title:String,
+  title: {
+    type:String,
+    unique: true,
+    index: true
+  },
   release_date:String,
   overview: String,
   vote_average: Number 
@@ -35,7 +39,7 @@ var fetchMovie = function(cb) {
     } else {
       cb(null,data);
     }
-  }).sort({vote_average:-1}).limit(5);
+  }).sort({vote_average:1}).limit(5);
 }
 
 module.exports.addMovie = addMovie;

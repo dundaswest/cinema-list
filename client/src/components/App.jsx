@@ -11,40 +11,33 @@ class App extends React.Component {
     super(props);
     this.state = {
       list : [],
-      input:''
+      added:null
     }
   }
   componentDidMount() {
     this.fetchData();
   }
-  handleClick(title) {
+  handleSubmit(title) {
     searchMovies(title, (err, data) => {
       if(err) {
-        console.log(err);
+        console.error(err);
       } else {
+        this.fetchData();
         console.log('handleclick', data);
-        //this.setState({list:this.state.list.concat(data)})
+        this.setState({added:data.title});
       }
     });
-    this.handleSubmit(title); 
+    
   }
 
-  handleSubmit(movie) {
-    axios.post('/', movie)
-    .then((response) => {
-      this.fetchData();
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-  }
 
   fetchData() {
     axios.get('/movie')
     .then((response) => {
       this.setState({list:response.data});
+      console.log('hi')
     }).catch(function(error){
-      console.log(error);
+      console.error(error);
     })
   }
 
@@ -55,7 +48,8 @@ class App extends React.Component {
       <div>
       <h1>My Movie List</h1>
       <div>Total:{this.state.list.length}</div>
-      <Add handleClick={this.handleClick.bind(this)}/>
+      <div>Added:{this.state.added}</div>
+      <Add handleSubmit={this.handleSubmit.bind(this)}/>
       <div>
       </div>
       <MovieList list={this.state.list}/>
