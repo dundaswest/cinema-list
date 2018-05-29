@@ -22,11 +22,11 @@ var movieSchema = mongoose.Schema({
 var Movie = mongoose.model('Movie',movieSchema);
 
 var addMovie = function(data,cb) {
-  Movie.create(data,function(err,data){
+  Movie.create(data,function(err,movie){
     if(err) {
       cb(err,null);
     } else {
-      cb(null,data);
+      cb(null,movie);
       console.log('data saved')
     }
   });
